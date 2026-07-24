@@ -22,7 +22,7 @@ As agents move from assistants to autonomous actors operating over real-world as
 
 ### 1. Spatial Identity — Merging Physical and Digital
 
-TerraID divides the Earth's surface into deterministic 3-meter grid cells. Any agent, anywhere in the world, computes the same unique identifier from the same coordinates. No central database required.
+TerraID divides the Earth's surface into deterministic grid cells. Any agent, anywhere in the world, computes the same unique identifier from the same coordinates. No central database required.
 
 ```
 Coordinates (51.5074, -0.1278)
@@ -77,7 +77,7 @@ AI Inspection Agent
 
 **Key properties:**
 - **Narrowing-only**: Each delegation can only reduce permissions, never escalate. An agent delegated `maintain` cannot grant `transact`.
-- **Chain depth limit**: Maximum 5 levels of delegation. Prevents unbounded authority propagation.
+- **Chain depth limit**: Bounded delegation depth prevents unbounded authority propagation.
 - **Time-bounded**: Delegations expire. A contractor's access can be scoped to a 24-hour window.
 - **Cascade revocation**: Revoking a parent delegation instantly revokes all children.
 - **Cryptographically signed**: Every delegation is a verifiable credential signed by the delegator. Cannot be forged.
@@ -90,7 +90,7 @@ Every agent action is recorded on a Proof-of-Authority blockchain:
 
 - **Hash-chained blocks** — each block references the previous, making tampering detectable
 - **Merkle tree proofs** — any single transaction can be independently verified without downloading the full chain
-- **Public chain anchoring** — Merkle roots are periodically written to Ethereum (Base Sepolia), creating an external proof that the ledger hasn't been altered
+- **Public chain anchoring** — Merkle roots are periodically anchored to a public blockchain, creating an external proof that the ledger hasn't been altered
 
 When a regulator asks "who authorized this decision?", the answer is a cryptographic proof chain — not a PDF in someone's inbox.
 
@@ -216,29 +216,26 @@ The twin bridges the gap between "user" and "agentic economy participant." Users
 
 ## Cryptographic Foundations
 
-| Primitive | Algorithm | Standard |
-|-----------|-----------|----------|
-| Agent signing | Ed25519 | RFC 8032 |
-| Agent identity | did:key | W3C DID |
-| Credentials | SD-JWT-VC | IETF draft |
-| Spatial hashing | SHA-256 | FIPS 180-4 |
-| Ledger anchoring | Solidity | EVM (Base) |
-| Post-quantum (planned) | Hybrid Ed25519 + ML-DSA-65 | FIPS 204 |
+| Primitive | Standard |
+|-----------|----------|
+| Agent signing | RFC 8032 |
+| Agent identity | W3C DID |
+| Credentials | IETF SD-JWT-VC |
+| Ledger anchoring | EVM-compatible |
+| Post-quantum (planned) | FIPS 204 |
 
 ---
 
 ## Current Status
 
-- 14 microservices deployed and operational
 - 42M UK properties indexed with spatial TerraIDs
 - 4.4M title deeds matched from HM Land Registry
-- Smart contract live on Base Sepolia
-- Agent runtime with 80+ pluggable skills
+- Smart contract live on public chain
+- Agent runtime with pluggable skill system
 - Digital twin agents with persistent memory
 - WebAuthn passkey authentication
-- Open-source SDK with 14 MCP tools and A2A protocol
+- Open-source SDK with MCP tools and A2A protocol
 - Framework integrations: LangChain, CrewAI, AutoGen, Vercel AI SDK, OpenAI GPTs
-- 152+ tests
 
 ---
 
